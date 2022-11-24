@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { ICHSUCalendareLocalisation, SatrtDay } from './loc';
 import { IDatesView } from './CalendareEventsView';
 import styles from './styles.module.scss';
