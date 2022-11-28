@@ -1,6 +1,6 @@
 {
   "name": "@CHSUVladimir/calendare-chsu",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "private": false,
   "description": "calendare made by CHSU (https://www.chsu.ru/)",
   "main": "./dist/cjs/index.js",
@@ -33,18 +33,21 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/node": "^16.18.3",
     "@types/react-dom": "^18.0.9",
+    "copy-files-from-to": "^3.6.0",
     "node-sass": "^7.0.3",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run build:esm && npm run build:cjs && npm run builscript",
+    "build": "npm run build:esm && npm run build:cjs && npm run buildExample && npm run copyCss",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "buildExample": "react-scripts build",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir ./dist/cjs",
-    "builscript": "react-scripts build"
+    "copyCss":"copy-files-from-to"
+    
   },
   "eslintConfig": {
     "extends": [
@@ -76,5 +79,31 @@
     "react-dom": "^18.2.0",
     "ts-jest": "^29.0.3",
     "typescript": "^4.9.3"
-  }
+  },
+  "copyFiles":[
+    {
+      "from":"./src/index.css",
+      "to":"./dist/cjs/index.css"
+    },
+    {
+      "from":"./src/index.css",
+      "to":"./dist/esm/index.css"
+    },
+    {
+      "from":"./src/App.css",
+      "to":"./dist/cjs/App.css"
+    },
+    {
+      "from":"./src/App.css",
+      "to":"./dist/esm/App.css"
+    },
+    {
+      "from":"./src/styles.module.scss",
+      "to":"./dist/cjs/styles.module.scss"
+    },
+    {
+      "from":"./src/styles.module.scss",
+      "to":"./dist/esm/styles.module.scss"
+    }
+  ]
 }

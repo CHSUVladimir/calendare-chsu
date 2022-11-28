@@ -15,7 +15,7 @@
     <script type="text/javascript" async="" src="/js/MaketScript1.js"></script>
     <script type="text/javascript" async="" src="/js/MaketScript2.js"></script>
   </head>
-  <body>
+  <body onload="onBodyLoad()">
     <noscript>
       <meta HTTP-EQUIV="refresh" content="0;url='https://dw.chsu.ru/Application/SitePages/Auditori.aspx?PageSpeed=noscript'" />
       <style><!--table,div,span,font,p{display:none} --></style>
@@ -696,9 +696,22 @@
                                           </style>
                                           <!-- place for maket values /!-->
                                           <div id="root" style="width: 98vw;"> </div>
-
+                                          <div id="root1" style="width: 98vw;"> </div>
+                                          <div id="root2" style="width: 98vw;"> </div>
                                           <script>
-                                        
+                                            function onBodyLoad(){
+                                              buildCalendare("root");
+                                              buildCalendare("root1",{StartDay:'FirstDayWeek', MonthName:true});
+                                              buildCalendare("root2",[
+                                                {},
+                                                {StartDay:'FirstDayWeek', MonthName:true},
+                                                {StartDay:'CurentDate', MonthName:true},
+                                                {WithoutLess:true},
+                                                {minYear:2022},
+                                                {zero:true, MonthName:true}
+                                                
+                                              ]);
+                                            }
                                         
 
                                         
