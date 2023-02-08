@@ -13,6 +13,8 @@ export interface IWeekRow {
     WithoutLess?: boolean;
     DatesView?: IDatesView
     WN: number;
+    onDateSelect?:(Day:Date)=>any;
+    CurentSelected?:Date|Date[];
 }
 
 export default class WeekRow extends React.Component<IWeekRow>{
@@ -30,6 +32,8 @@ export default class WeekRow extends React.Component<IWeekRow>{
                                 zero={this.props.zero}
                                 MonthName={this.props.MonthName}
                                 DatesView={this.props.DatesView}
+                                onDateSelect={this.props.onDateSelect}
+                                CurentSelected={this.props.CurentSelected}
                             />
                         );
                     })
@@ -72,4 +76,6 @@ export default class WeekRow extends React.Component<IWeekRow>{
             }
         }
     }
+
+   
 }

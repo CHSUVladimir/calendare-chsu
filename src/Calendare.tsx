@@ -13,7 +13,10 @@ export interface ICHSUCalendare {
   minYear?: number;
   zero?: boolean;
   MonthName?: boolean;
-  DatesView?: IDatesView
+  DatesView?: IDatesView;
+  onDateSelect?:(Day:Date)=>any;
+  CurentSelected?:Date|Date[];
+  DontDisplayHooks?:boolean;
 }
 
 interface ICalendareState {
@@ -23,7 +26,7 @@ interface ICalendareState {
 export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICalendareState>{
   
   public state: Readonly<ICalendareState> = {
-    CurentDate: new Date()
+    CurentDate: this.startDate()
   };
 
   public render(): React.ReactNode {
@@ -34,9 +37,9 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
             onClick={() => {
               this.setState({ CurentDate: this.MonthMinus });
             }}> &lang; </span>
-          <span className={styles.left + " " + styles.hook}></span>
+            {!this.props.DontDisplayHooks?<span className={styles.left + " " + styles.hook}></span>:<></>}          
           <span className={styles.monthYear}> {this.StartWD !== "CurentDate" && this.StartWD !== "FirstDayWeek" ? this.Loc.LocalYear[this.state.CurentDate.getMonth()].LongName : ""} {this.state.CurentDate.getFullYear()} </span>
-          <span className={styles.right + " " + styles.hook}></span>
+          {!this.props.DontDisplayHooks? <span className={styles.right + " " + styles.hook}></span>:<></>}         
           <span className={styles.right + " " + styles.button}
             onClick={() => {
               this.setState({ CurentDate: this.MonthPlus });
@@ -67,6 +70,8 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
                           zero={this.props.zero}
                           MonthName={this.props.MonthName}
                           DatesView={this.props.DatesView}
+                          onDateSelect={this.props.onDateSelect}
+                          CurentSelected={this.props.CurentSelected}
                       />
                   );
               })
@@ -178,5 +183,24 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
     const d = this.state.CurentDate;
     let l = new Date(d.getFullYear(), d.getMonth() + 1, 0);
     return Math.ceil((l.getDate() - (l.getDay() ? l.getDay() : 7)) / 7) + 1;
+  }
+
+  private startDate():Date{
+    if(this.props.CurentSelected){
+      const darr = this.props.CurentSelected as Date[];
+      if(darr.length){
+        if(darr.length>0){
+          const dd = darr.map(m=>new Date(m)).sort((a,b)=>a.getTime()-b.getTime())[0];
+          return new Date(dd);
+        }else{
+          return new Date();
+        }
+      }else{
+        const cd = this.props.CurentSelected as Date;        
+        return new Date(cd);
+      }
+    }else{
+      return new Date();
+    }
   }
 }

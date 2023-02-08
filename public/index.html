@@ -702,14 +702,38 @@
                                             function onBodyLoad(){
                                               buildCalendare("root");
                                               buildCalendare("root1",{StartDay:'FirstDayWeek', MonthName:true});
+                                              const td = new Date();
+                                              const selectedDays=[
+                                                new Date().setFullYear(td.getFullYear()-1),
+                                                new Date().setFullYear(td.getFullYear()-1, td.getMonth(), td.getDate()-2),
+                                                new Date().setFullYear(td.getFullYear()-1, td.getMonth(), td.getDate()+2),
+                                              ];
                                               buildCalendare("root2",[
                                                 {},
                                                 {StartDay:'FirstDayWeek', MonthName:true},
                                                 {StartDay:'CurentDate', MonthName:true},
-                                                {WithoutLess:true},
-                                                {minYear:2022},
-                                                {zero:true, MonthName:true}
-                                                
+                                                {WithoutLess:true, onDateSelect:(d)=>console.log(d)},
+                                                {minYear:2022, onDateSelect:(d)=>console.log(d)},
+                                                {zero:true, MonthName:true},
+                                                {
+                                                  WithoutLess:true, 
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,
+                                                  CurentSelected: new Date().setFullYear(2022)
+                                                },
+                                                {
+                                                  WithoutLess:true, 
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,
+                                                  CurentSelected: selectedDays
+                                                },
+                                                {
+                                                  WithoutLess:true, 
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,
+                                                  CurentSelected: selectedDays,
+                                                  DontDisplayHooks:true
+                                                },
                                               ]);
                                             }
                                         
@@ -765,9 +789,9 @@
       </div>
       
       <script>
-        setTimeout(()=>{
+       /* setTimeout(()=>{
           console.clear();        
-        },500);
+        },500);*/
               
       </script>
     </form>

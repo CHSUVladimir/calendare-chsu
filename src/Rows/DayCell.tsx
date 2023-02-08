@@ -9,13 +9,15 @@ export interface IDayCell {
     zero?: boolean;
     MonthName?: boolean;
     DatesView?: IDatesView
+    onDateSelect?:(Day:Date)=>any;
+    CurentSelected?:Date|Date[];
 }
 
 export default class DayCell extends React.Component<IDayCell>{
 
     public render(): React.ReactElement<IDayCell> {
         return (
-            <td className={this.ClassNames}>
+            <td className={this.ClassNames} onClick={()=>this.DayClick()} style={this.props.CurentDate?{cursor:'pointer'}:undefined}>
                 {this.props.DatesView ? <div>
                     {this.props.CurentDate ?
                         getValuesFromDate(this.props.DatesView, this.props.CurentDate)?.elements.map((e, index) => {
@@ -57,13 +59,31 @@ export default class DayCell extends React.Component<IDayCell>{
         if (!this.props.CurentDate) {
             return CaledareStyle.nil;
         } else {
+            let res="";
             const td = new Date();
             const cd = this.props.CurentDate;
             if (td.getFullYear() === cd.getFullYear() && td.getMonth() === cd.getMonth() && td.getDate() === cd.getDate()) {
-                return CaledareStyle.today;
+                res+=CaledareStyle.today;
             }
+            if(this.props.CurentSelected){
+                const arr = this.props.CurentSelected as Date[];
+                if(arr.length){
+                    const ff = arr.map(m=>new Date(m)).find(m=>m.getFullYear() === cd.getFullYear() && m.getMonth() === cd.getMonth() && m.getDate() === cd.getDate());
+                    if(ff){
+                        res+=' ' +CaledareStyle.selected;
+                    }
+
+                }else{
+                    let dtn = this.props.CurentSelected as Date;
+                    dtn = new Date(dtn);
+                    if (dtn.getFullYear() === cd.getFullYear() && dtn.getMonth() === cd.getMonth() && dtn.getDate() === cd.getDate()) {
+                        res+=' ' +CaledareStyle.selected;
+                    }
+                }
+            }
+            return res;
         }
-        return "";
+        
     }
 
     /**
@@ -74,6 +94,12 @@ export default class DayCell extends React.Component<IDayCell>{
             return this.props.YearLoc[this.props.CurentDate.getMonth()].LongName;
         } else {
             return "";
+        }
+    }
+
+    private DayClick(){
+        if(this.props.onDateSelect && this.props.CurentDate){
+            this.props.onDateSelect(this.props.CurentDate);
         }
     }
 }
