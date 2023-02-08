@@ -734,6 +734,21 @@
                                                   CurentSelected: selectedDays,
                                                   DontDisplayHooks:true
                                                 },
+                                                {
+                                                  WithoutLess:true, 
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,                                                  
+                                                  DontDisplayHooks:true,
+                                                  CurrentYear:td.getFullYear()-1,
+                                                },
+                                                {
+                                                  WithoutLess:true, 
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,                                                  
+                                                  DontDisplayHooks:true,
+                                                  CurrentYear:td.getFullYear()-1,
+                                                  CurrentMonth:td.getMonth()-2,
+                                                },
                                               ]);
                                             }
                                         

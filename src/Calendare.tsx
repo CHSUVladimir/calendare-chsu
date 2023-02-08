@@ -17,6 +17,8 @@ export interface ICHSUCalendare {
   onDateSelect?:(Day:Date)=>any;
   CurentSelected?:Date|Date[];
   DontDisplayHooks?:boolean;
+  CurrentYear?:number;
+  CurrentMonth?:number;
 }
 
 interface ICalendareState {
@@ -200,6 +202,15 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
         return new Date(cd);
       }
     }else{
+      if(this.props.CurrentYear){
+        if(this.props.CurrentMonth){
+          return new Date(this.props.CurrentYear,this.props.CurrentMonth,1);
+        }else{
+          return new Date(this.props.CurrentYear,0,1);
+        }
+      }else{
+        return new Date();
+      }
       return new Date();
     }
   }
