@@ -1,6 +1,6 @@
 {
   "name": "@CHSUVladimir/calendare-chsu",
-  "version": "0.1.12",
+  "version": "0.1.14",
   "private": false,
   "description": "calendare made by CHSU (https://www.chsu.ru/)",
   "main": "./dist/cjs/index.js",

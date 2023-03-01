@@ -37,6 +37,7 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
   };
 
   public render(): React.ReactNode {
+    const wd = this.WeekDates;
     if(!this.props.await){}else{
       return(
         <div className={styles.chsuCalendare}>
@@ -71,7 +72,7 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
           </thead>
           <tbody>
             {
-              this.WeekDates.map((dt, index) => {
+              wd.map((dt, index) => {
                   return (
                       <WeekRow
                           Localisation={this.Loc.LocalWeek}
@@ -186,15 +187,7 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
             }
         }
     }    
-    if(res.length>0){
-      const sd = res[0];
-      const fdlw = res[res.length-1];
-      const rd = new Date(fdlw.getFullYear(), fdlw.getMonth(), fdlw.getDate()+6);
-      if(this.props.startDate) this.props.startDate(sd);
-      if(this.props.endDate) this.props.endDate(rd);
-      if(this.props.period) this.props.period(sd,rd);
-    }
-
+    this.actionDates(res);
     return res;
   }
 
@@ -228,6 +221,27 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
       }else{
         return new Date();
       }      
+    }
+  }
+
+  private actionDates(res:Date[]):void{
+    if(res.length>0 && (this.props.startDate || this.props.endDate || this.props.period)){
+      let sd = res[0];
+      const dw =sd.getDay();
+      if(dw!==1){
+        if(dw===0){
+          sd=new Date(sd.getFullYear(),sd.getMonth(), sd.getDate()-6);
+        }else{
+          sd=new Date(sd.getFullYear(),sd.getMonth(), sd.getDate()-(dw-1));
+        }
+      }
+      const fdlw = res[res.length-1];
+      const fdlwdw = fdlw.getDay();
+      console.log(fdlwdw);
+      const rd = new Date(fdlw.getFullYear(), fdlw.getMonth(), fdlw.getDate()+(fdlwdw===1?6:fdlwdw===0?0:(7-fdlwdw)));      
+      if(this.props.startDate) this.props.startDate(sd);
+      if(this.props.endDate) this.props.endDate(rd);
+      if(this.props.period) this.props.period(sd,rd);
     }
   }
 }
