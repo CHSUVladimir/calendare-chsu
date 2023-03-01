@@ -237,7 +237,6 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
       }
       const fdlw = res[res.length-1];
       const fdlwdw = fdlw.getDay();
-      console.log(fdlwdw);
       const rd = new Date(fdlw.getFullYear(), fdlw.getMonth(), fdlw.getDate()+(fdlwdw===1?6:fdlwdw===0?0:(7-fdlwdw)));      
       if(this.props.startDate) this.props.startDate(sd);
       if(this.props.endDate) this.props.endDate(rd);

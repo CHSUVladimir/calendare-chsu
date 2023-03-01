@@ -708,6 +708,14 @@
                                                 new Date().setFullYear(td.getFullYear()-1, td.getMonth(), td.getDate()-2),
                                                 new Date().setFullYear(td.getFullYear()-1, td.getMonth(), td.getDate()+2),
                                               ];
+                                              const els1 =[];
+                                              const els2 =[];
+                                              const els3 =[];
+                                              for(var i=0;i<5;i++){
+                                                els1.push(TestCalendareElement(i));
+                                                els2.push(TestCalendareElement(i));
+                                                els3.push(TestCalendareElement(i));
+                                              }
                                               buildCalendare("root2",[
                                                 {},
                                                 {StartDay:'FirstDayWeek', MonthName:true},
@@ -782,6 +790,28 @@
                                                     console.log('period:');
                                                     console.log(s);
                                                     console.log(e);
+                                                  }
+                                                },
+                                                {
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,                                                  
+                                                  DontDisplayHooks:true,
+                                                  CurrentYear:2023,
+                                                  CurrentMonth:3,
+                                                  DatesView:{
+                                                    2023:{
+                                                      3:{
+                                                        1:{
+                                                          elements:els1
+                                                        },
+                                                        3:{
+                                                          elements:els2
+                                                        },
+                                                        5:{
+                                                          elements:els3
+                                                        }
+                                                      }
+                                                    }
                                                   }
                                                 },
                                               ]);
