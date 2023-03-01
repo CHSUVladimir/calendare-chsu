@@ -749,6 +749,30 @@
                                                   CurrentYear:td.getFullYear()-1,
                                                   CurrentMonth:td.getMonth()-2,
                                                 },
+                                                {
+                                                  WithoutLess:true, 
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,                                                  
+                                                  DontDisplayHooks:true,
+                                                  CurrentYear:td.getFullYear()-1,
+                                                  CurrentMonth:td.getMonth()-2,
+                                                  startDate:(d)=>console.log(d),
+                                                  endDate:(d)=>console.log(d),
+                                                  period:(s,e)=>{
+                                                    console.log('period:');
+                                                    console.log(s);
+                                                    console.log(e);
+                                                  }
+                                                },
+                                                {
+                                                  WithoutLess:true, 
+                                                  onDateSelect:(d)=>console.log(d),
+                                                  minYear:2021,                                                  
+                                                  DontDisplayHooks:true,
+                                                  CurrentYear:td.getFullYear()-1,
+                                                  CurrentMonth:td.getMonth()-2,
+                                                  await:true,
+                                                },
                                               ]);
                                             }
                                         

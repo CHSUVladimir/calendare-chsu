@@ -19,6 +19,11 @@ export interface ICHSUCalendare {
   DontDisplayHooks?:boolean;
   CurrentYear?:number;
   CurrentMonth?:number;
+  startDate?:(day:Date)=>void;
+  endDate?:(day:Date)=>void;
+  period?:(start:Date, end:Date)=>void;
+  await?:boolean;
+  awaitElement?:JSX.Element;
 }
 
 interface ICalendareState {
@@ -32,6 +37,13 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
   };
 
   public render(): React.ReactNode {
+    if(!this.props.await){}else{
+      return(
+        <div className={styles.chsuCalendare}>
+          {this.props.awaitElement??<div>Подождите, идет загрузка данных...</div>}
+        </div>
+      );
+    }
     return (
       <div className={styles.chsuCalendare}>
         <div className={styles.header}>
@@ -88,11 +100,7 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
   }
 
   private get Loc(): ICHSUCalendareLocalisation {
-    if (this.props.Localisation) {
-        return this.props.Localisation;
-    } else {
-        return DefaultLocalisation();
-    }
+    return this.props.Localisation??DefaultLocalisation();   
   }
 
   private get MonthPlus(): Date {
@@ -155,7 +163,7 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
   }
 
   private get StartWD(): SatrtDay {
-    return this.props.StartDay ? this.props.StartDay : "FirstDayMonth";
+    return this.props.StartDay ?? "FirstDayMonth";
   }
 
   private get WeekDates(): Date[] {
@@ -177,7 +185,16 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
                 res.push(dt);
             }
         }
+    }    
+    if(res.length>0){
+      const sd = res[0];
+      const fdlw = res[res.length-1];
+      const rd = new Date(fdlw.getFullYear(), fdlw.getMonth(), fdlw.getDate()+6);
+      if(this.props.startDate) this.props.startDate(sd);
+      if(this.props.endDate) this.props.endDate(rd);
+      if(this.props.period) this.props.period(sd,rd);
     }
+
     return res;
   }
 
@@ -210,8 +227,7 @@ export default class CHSUCalendare extends React.Component<ICHSUCalendare, ICale
         }
       }else{
         return new Date();
-      }
-      return new Date();
+      }      
     }
   }
 }
